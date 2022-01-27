@@ -1,21 +1,20 @@
 package com.codegym;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
-public class Familly {
+public class Familly implements Serializable {
     private int famillyMembers;
     private int address;
-    private Person[] members = new Person[famillyMembers];
+    private List<Person> members = new ArrayList<>();
 
 
-    public Familly() {
-
-    }
-
-    public Familly(int famillyMembers, int address, Person[] members) {
+    public Familly(int famillyMembers, int address, List<Person> members) {
         this.famillyMembers = famillyMembers;
         this.address = address;
         this.members = members;
@@ -37,33 +36,21 @@ public class Familly {
         this.address = address;
     }
 
-    public Person[] getMembers() {
+    public List<Person> getMembers() {
         return members;
     }
 
-    public void setMembers(Person[] members) {
+    public void setMembers(List<Person> members) {
         this.members = members;
     }
 
     public void displayAllMember() {
-        for (int i = 0; i < members.length; i++) {
-            System.out.println(members[i]);
+        for (Person member: members) {
+            System.out.println(member);
         }
     }
-
-
-
-//    public void findOver80YearsOld() {
-//        for (int i = 0; i < members.length; i++) {
-//            if (convertToDate(members[i].getBirthDay()).getYear() <= 42) {
-//                System.out.println(members[i]);
-//            }
-//        }
-//    }
-
-
     @Override
     public String toString() {
-        return "Tổng số thành viên trong nhà: " + this.famillyMembers + ", số nhà: " + this.address + "\nCác thành viên trong gia đình: ";
+        return "số thành viên: "+this.famillyMembers + ", số nhà: " + this.address + "\nCác thành viên trong gia đình:" ;
     }
 }

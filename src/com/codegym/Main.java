@@ -1,6 +1,9 @@
 package com.codegym;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -8,10 +11,14 @@ public class Main {
 
     public static void main(String[] args) {
         FamillyMangement famillyMangement = new FamillyMangement();
-        Familly familly = new Familly();
         int choice;
-        menu();
+        try {
+            famillyMangement.readFile("familly2.txt");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         do {
+            famillyMangement.menu();
             System.out.println("Nhập lựa chọn của bạn: ");
             choice = scanner.nextInt();
             if (choice > 6) {
@@ -25,14 +32,9 @@ public class Main {
                 }
                 case 2: {
                     System.out.println("----Thêm hộ dân----");
-                    System.out.println("Nhập số hộ dân muốn thêm:  ");
-                    int n = scanner.nextInt();
-                    for (int i = 0; i < n; i++) {
-                        System.out.println("Hộ dân số: " + (i + 1));
-                        Familly newFamilly = inputFamillyInfo();
-                        famillyMangement.addNewFamilly(newFamilly);
-                    }
-
+                    Familly newFamilly = famillyMangement.inputFamillyInfo();
+                    famillyMangement.addNewFamilly(newFamilly);
+                    System.out.println("Thêm thành công!");
                     break;
                 }
                 case 3: {
@@ -53,8 +55,8 @@ public class Main {
                     if (index - 1 < 0 || index - 1 >= famillyMangement.getFamillies().size()) {
                         System.out.println("Vị trí không hợp lệ");
                     } else {
-                        Familly newFamilly = inputFamillyInfo();
-                        famillyMangement.updateFamilly(index-1,newFamilly);
+                        Familly newFamilly = famillyMangement.inputFamillyInfo();
+                        famillyMangement.updateFamilly(index - 1, newFamilly);
                     }
                     break;
                 }
@@ -64,44 +66,15 @@ public class Main {
                     break;
                 }
             }
-        } while (choice != 6);
+            try {
+                famillyMangement.writeToFile(famillyMangement.getFamillies());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } while (choice != 0);
 
     }
 
-    public static void menu() {
-        System.out.println("----MENU QUẢN LÝ CÁC HỘ DÂN----");
-        System.out.println("1. Hiển thị thông tin các hộ dân.");
-        System.out.println("2. Thêm hộ dân");
-        System.out.println("3. Xóa hộ dân");
-        System.out.println("4. Cập nhật hộ dân");
-        System.out.println("5. Hộ dân có người mừng thọ 80 tuổi");
-        System.out.println("6. Thoát");
-    }
 
-    public static Familly inputFamillyInfo() {
-        String name = "";
-        String birthDay = "";
-        String job = "";
-        System.out.println("Nhập thông tin của hộ dân: ");
-        System.out.println("Sô thành viên trong nhà: ");
-        int famillyMembers = scanner.nextInt();
-        System.out.println("Nhập số nhà: ");
-        int address = scanner.nextInt();
-        System.out.println("Nhập từng thành viên trong gia đình");
-        Person[] members = new Person[famillyMembers];
-        for (int i = 0; i < members.length; i++) {
-            Scanner scanner1 = new Scanner(System.in);
-            System.out.println("Thành viên thứ:  " + (i + 1));
-            System.out.println("Họ và tên: ");
-            name = scanner1.nextLine();
-            System.out.println("Sinh nhật: ");
-            birthDay = scanner1.nextLine();
-            System.out.println("Nghê nghiệp: ");
-            job = scanner1.nextLine();
-            members[i] = new Person(name, birthDay, job);
-        }
-
-        return new Familly(famillyMembers, address, members);
-    }
 
 }

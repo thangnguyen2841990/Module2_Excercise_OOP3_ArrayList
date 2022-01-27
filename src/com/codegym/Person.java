@@ -1,17 +1,14 @@
 package com.codegym;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Person {
+public class Person implements Serializable {
     private String name;
     private String birthDay;
     private String job;
 
-
-    public Person() {
-
-    }
 
     public Person(String name, String birthDay, String job) {
         this.name = name;
@@ -45,6 +42,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Họ và tên: " +this.name + ", Sinh nhật: "+this.birthDay +", Nghề nghiệp: "+this.job;
+        return "Họ tên: "+  this.name + ", sinh nhật: "+this.birthDay +", công việc: "+this.job;
     }
 }
